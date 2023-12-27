@@ -4,14 +4,15 @@ const dv = {}; // mock dv
 const TAGS = "[[financial transactions]]"
 const TEMPLATE_FOLDER = "003 - Templates"
 const COLUMNS = { datetime: "datetime", source: "source", type: "type", details: "details", amount: "amount", remarks: "remarks" };
-const fields = Object.values(COLUMNS).slice(1,);
+const fields = Object.values(COLUMNS).slice(1, -1);
 
 // functions
 const getDatetime = (row) => row[COLUMNS.datetime] ? row[COLUMNS.datetime] : row.file.mtime;
 const mapRow = (row) => {
+    const remarks = row[COLUMNS.remarks] ? row[COLUMNS.remarks] : row.file.name;
     const datetime = getDatetime(row);
     const fieldMap = fields.map(field => row[field]);
-    return [datetime, ...fieldMap];
+    return [datetime, ...fieldMap, remarks];
 }
 
 // main code
